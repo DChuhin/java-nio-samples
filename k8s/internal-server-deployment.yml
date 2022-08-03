@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daniil-test-internal-nio-server
+  name: daniil-test-internal-nio-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daniil-test-internal-nio-server
+  template:
+    metadata:
+      labels:
+        app: daniil-test-internal-nio-server
+    spec:
+      containers:
+        - name: daniil-test-internal-nio-server
+          env:
+            - name: JAVA_THREADS
+              value: "4"
+            - name: APP
+              value: "InternalServerApp"
+          image: 'gcr.io/firedome-devops/daniil-test-nio-sample-server'
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9010
+            - containerPort: 5456
+          resources:
+            requests:
+              memory: "768Mi"
+              cpu: "4.0"
+            limits:
+              memory: "768Mi"
+              cpu: "4.0"

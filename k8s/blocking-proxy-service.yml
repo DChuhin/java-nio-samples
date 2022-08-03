@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: daniil-test-blocking-proxy
+  name: daniil-test-blocking-proxy
+spec:
+  ports:
+    - port: 5454
+      protocol: TCP
+      targetPort: 5454
+  selector:
+    app: daniil-test-blocking-proxy
+  type: ClusterIP

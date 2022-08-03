@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: daniil-test-nio-proxy
+  name: daniil-test-nio-proxy
+spec:
+  ports:
+    - port: 5455
+      protocol: TCP
+      targetPort: 5455
+  selector:
+    app: daniil-test-nio-proxy
+  type: ClusterIP

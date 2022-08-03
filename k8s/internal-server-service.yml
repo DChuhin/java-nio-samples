@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: daniil-test-internal-nio-server
+  name: daniil-test-internal-nio-server
+spec:
+  ports:
+    - port: 5456
+      protocol: TCP
+      targetPort: 5456
+  selector:
+    app: daniil-test-internal-nio-server
+  type: ClusterIP

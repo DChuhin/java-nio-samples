@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daniil-test-blocking-proxy
+  name: daniil-test-blocking-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daniil-test-blocking-proxy
+  template:
+    metadata:
+      labels:
+        app: daniil-test-blocking-proxy
+    spec:
+      containers:
+        - name: daniil-test-blocking-proxy
+          env:
+            - name: JAVA_THREADS
+              value: "200"
+            - name: APP
+              value: "BlockingProxyApp"
+            - name: INTERNAL_SERVER_HOST
+              value: "daniil-test-internal-nio-server"
+          image: 'gcr.io/firedome-devops/daniil-test-nio-sample-server'
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9010
+            - containerPort: 5454
+          resources:
+            requests:
+              memory: "768Mi"
+              cpu: "2.0"
+            limits:
+              memory: "768Mi"
+              cpu: "2.0"

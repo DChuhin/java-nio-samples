@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: daniil-test-nio-proxy
+  name: daniil-test-nio-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daniil-test-nio-proxy
+  template:
+    metadata:
+      labels:
+        app: daniil-test-nio-proxy
+    spec:
+      containers:
+        - name: daniil-test-nio-proxy
+          env:
+            - name: JAVA_THREADS
+              value: "2"
+            - name: APP
+              value: "NioProxyApp"
+            - name: INTERNAL_SERVER_HOST
+              value: "daniil-test-internal-nio-server"
+          image: 'gcr.io/firedome-devops/daniil-test-nio-sample-server'
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9010
+            - containerPort: 5455
+          resources:
+            requests:
+              memory: "768Mi"
+              cpu: "2.0"
+            limits:
+              memory: "768Mi"
+              cpu: "2.0"

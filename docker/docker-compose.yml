@@ -1,0 +1,45 @@
+version: '3.1'
+
+services:
+  internalServer:
+    image:  nio-sample-server
+    mem_limit: 768m
+    mem_reservation: 768m
+    cpus: 0.5
+    environment:
+      - JAVA_THREADS=2
+      - APP=InternalServerApp
+      - JAVA_OPTS=
+          -Dcom.sun.management.jmxremote 
+          -Dcom.sun.management.jmxremote.authenticate=false 
+          -Dcom.sun.management.jmxremote.ssl=false 
+          -Dcom.sun.management.jmxremote.local.only=false 
+          -Dcom.sun.management.jmxremote.port=9010 
+          -Dcom.sun.management.jmxremote.rmi.port=9010 
+          -Djava.rmi.server.hostname=127.0.0.1 
+          -Xms512m -Xmx512m
+    ports:
+      - "9010:9010"
+      - "5456:5456"
+  nioProxy:
+    image: nio-sample-server
+    mem_limit: 768m
+    mem_reservation: 768m
+    # 0.2 66 sec, 1 - fails, connections limit
+    cpus: 0.4
+    environment:
+      - JAVA_THREADS=1
+      - APP=NioProxyApp
+      - INTERNAL_SERVER_HOST=internalServer
+      - JAVA_OPTS=
+        -Dcom.sun.management.jmxremote
+        -Dcom.sun.management.jmxremote.authenticate=false
+        -Dcom.sun.management.jmxremote.ssl=false
+        -Dcom.sun.management.jmxremote.local.only=false
+        -Dcom.sun.management.jmxremote.port=9011
+        -Dcom.sun.management.jmxremote.rmi.port=9011
+        -Djava.rmi.server.hostname=127.0.0.1
+        -Xms512m -Xmx512m
+    ports:
+      - "9011:9011"
+      - "5455:5455"
